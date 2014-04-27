@@ -1,0 +1,25 @@
+{
+  "name": "srs.js",
+  "version": "0.0.0",
+  "description": "Sender Rewriting Scheme in JS.",
+  "main": "srs.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/samcday/srs.js.git"
+  },
+  "keywords": [
+    "srs",
+    "spf",
+    "email",
+    "forwarding"
+  ],
+  "author": "Sam Day <me@samcday.com.au>",
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/samcday/srs.js/issues"
+  },
+  "homepage": "https://github.com/samcday/srs.js"
+}
