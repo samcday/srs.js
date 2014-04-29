@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/samcday/srs.js/issues"
   },
-  "homepage": "https://github.com/samcday/srs.js"
+  "homepage": "https://github.com/samcday/srs.js",
+  "dependencies": {
+    "base32": "0.0.6"
+  }
 }

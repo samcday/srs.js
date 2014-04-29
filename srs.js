@@ -1,0 +1,98 @@
+"use strict";
+
+var crypto = require("crypto");
+
+// This timestamp code is based on the C libsrs2 implementation.
+var timeBaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567",
+    timeSize = 2,
+    timeBaseBits = 5,
+    timePrecision = (60 * 60 * 24),
+    timeSlots = (1<<(timeBaseBits<<(timeSize-1)));
+
+function makeTimestamp() {
+    var now = Math.round(Date.now() / 1000 / timePrecision);
+    var str = timeBaseChars[now & ((1 << timeBaseBits) - 1)];
+    now = now >> timeBaseBits;
+    str = timeBaseChars[now & ((1 << timeBaseBits) - 1)] + str;
+    return str;
+}
+
+function createHash(secret, timestamp, domain, local) {
+    var hmac = crypto.createHmac("sha1", secret);
+    hmac.update(timestamp);
+    hmac.update(domain);
+    hmac.update(local);
+    return hmac.digest("hex").substring(0, 4);
+}
+
+function checkTimestamp(str, maxAge) {
+    var then = 0;
+    for (var i = 0; i < str.length; i++) {
+        then = (then << timeBaseBits) | timeBaseChars.indexOf(str[i].toUpperCase());
+    }
+
+    var now = Math.round(Date.now() / 1000 / timePrecision) % timeSlots;
+    while(now < then) {
+        now = now + timeSlots;
+    }
+
+    return now <= then + maxAge;
+}
+
+function SRS(options) {
+    options = options || {};
+    this.secret = options.secret;
+    this.separator = options.separator || "=";
+    this.maxAge = options.maxAge || 21;
+
+    if (!this.secret) {
+        throw new TypeError("options.secret must be set");
+    }
+
+    this.parseRe = new RegExp("SRS[01]" + this.separator + "([0-9a-f]{4})" + 
+                              this.separator + "([" + timeBaseChars + "]{2})" +
+                              this.separator + "([^" + this.separator + "]*)" +
+                              this.separator + "(.*)");
+}
+
+SRS.prototype.rewrite = function(local, domain) {
+    var timestamp = makeTimestamp();
+    var hash = createHash(this.secret, timestamp, domain, local);    
+
+    // TODO: SRS1.
+    return "SRS0" + this.separator + hash + this.separator + timestamp +
+                    this.separator + domain + this.separator + local;
+};
+
+SRS.prototype.reverse = function(address) {
+    // TODO: SRS1.
+
+    if (address.indexOf("SRS") !== 0) {
+        return null;
+    }
+
+    var matches = this.parseRe.exec(address);
+    if (!matches) {
+        throw new TypeError("Unrecognized SRS format");
+    }
+    
+    var hash = matches[1],
+        timestamp = matches[2],
+        domain = matches[3],
+        local = matches[4];
+
+    var expectedHash = createHash(this.secret, timestamp, domain, local);
+    if (expectedHash !== hash) {
+        throw new TypeError("Invalid signature");
+    }
+
+    if (!checkTimestamp(timestamp, this.maxAge)) {
+        throw new TypeError("Address has expired");
+    }
+
+    return [local, domain];
+};
+
+var srs = new SRS({secret: "foo"});
+console.log(srs.rewrite("me", "samcday.com.au"));
+console.log(srs.reverse(srs.rewrite("me", "samcday.com.au")));
