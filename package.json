@@ -22,7 +22,10 @@
     "url": "https://github.com/samcday/srs.js/issues"
   },
   "homepage": "https://github.com/samcday/srs.js",
-  "dependencies": {
-    "base32": "0.0.6"
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "^1.18.2",
+    "sinon": "^1.9.1",
+    "chai": "^1.9.1"
   }
 }
