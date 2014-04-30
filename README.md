@@ -1,6 +1,8 @@
 srs.js `v0.1.0`
 ===============
 
+[![Build Status](https://travis-ci.org/samcday/srs.js.svg?branch=master)](https://travis-ci.org/samcday/srs.js)
+
 ```npm install srs.js```
 
 Javascript implementation of [Sender Rewriting Scheme](https://en.wikipedia.org/wiki/Sender_Rewriting_Scheme). Loosely based on the [libsrs2](https://github.com/shevek/libsrs2) implementation, though compatibility with libsrs2/Mail::SRS is not guaranteed.

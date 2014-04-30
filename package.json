@@ -24,8 +24,8 @@
   "homepage": "https://github.com/samcday/srs.js",
   "dependencies": {},
   "devDependencies": {
-    "mocha": "^1.18.2",
-    "sinon": "^1.9.1",
-    "chai": "^1.9.1"
+    "mocha": "~1.18.2",
+    "sinon": "~1.9.1",
+    "chai": "~1.9.1"
   }
 }
