@@ -3,3 +3,4 @@ test/
 .jshintrc
 .gitignore
 .npmignore
+.travis.yml
