@@ -1,7 +1,7 @@
 srs.js `v0.1.0`
 ===============
 
-[![Build Status](https://travis-ci.org/samcday/srs.js.svg?branch=master)](https://travis-ci.org/samcday/srs.js)
+[![Build Status](https://travis-ci.org/samcday/srs.js.svg?branch=master)](https://travis-ci.org/samcday/srs.js) [![Code Climate](https://codeclimate.com/github/samcday/srs.js/badges/gpa.svg)](https://codeclimate.com/github/samcday/srs.js)
 
 ```npm install srs.js```
 
