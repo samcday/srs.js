@@ -16,7 +16,7 @@ var rewriter = new SRS({
 });
 
 // Rewrite the email orig@example.org
-var rewritten = rewriter.forward("orig", "example.org");
+var rewritten = rewriter.rewrite("orig", "example.org");
 // -> rewritten: SRS0=HHH=TT=example.org=orig
 // Note that rewritten address does not include domain part (@example.org)
 
